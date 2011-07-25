@@ -52,8 +52,8 @@ void vtkOBJExporter::WriteData()
   FILE *fpObj, *fpMtl;
   vtkActorCollection *ac;
   vtkActor *anActor, *aPart;
-  char nameObj[80];
-  char nameMtl[80];
+  char nameObj[2048];
+  char nameMtl[2048];
   int idStart = 1;
   
   // make sure the user specified a filename
