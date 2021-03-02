@@ -15,7 +15,7 @@
 #include "vtkExtractRectilinearGrid.h"
 
 #include "vtkCellData.h"
-#include "vtkFloatArray.h"
+#include "vtkDoubleArray.h"
 #include "vtkObjectFactory.h"
 #include "vtkPointData.h"
 #include "vtkRectilinearGrid.h"
@@ -210,7 +210,7 @@ void vtkExtractRectilinearGrid::ExecuteInformation()
       outDims[i] = 1;
       }
     // We might as well make this work for negative extents.
-    mins[i] = (int)(floor((float)voi[2*i] / (float)rate[i]));
+    mins[i] = (int)(floor((double)voi[2*i] / (double)rate[i]));
     }
 
   // Adjust the output dimensions if the boundaries are to be
@@ -315,14 +315,14 @@ void vtkExtractRectilinearGrid::Execute()
 
   // Setup the new "geometry"
   vtkDataArray *inCoords;
-  vtkFloatArray *outCoords;
+  vtkDoubleArray *outCoords;
   // X
   inCoords = input->GetXCoordinates();
   if (inCoords->GetNumberOfComponents() > 1)
     {
     vtkWarningMacro("Multiple componenet axis coordinate.");
     }
-  outCoords = vtkFloatArray::New();
+  outCoords = vtkDoubleArray::New();
   outCoords->Allocate(uExt[1]-uExt[0]+1);
   outCoords->Allocate(uExt[1]-uExt[0]+1);
   outCoords->SetNumberOfTuples(uExt[1]-uExt[0]+1);
@@ -344,7 +344,7 @@ void vtkExtractRectilinearGrid::Execute()
     {
     vtkWarningMacro("Multiple componenet axis coordinate.");
     }
-  outCoords = vtkFloatArray::New();
+  outCoords = vtkDoubleArray::New();
   outCoords->Allocate(uExt[3]-uExt[2]+1);
   outCoords->SetNumberOfTuples(uExt[3]-uExt[2]+1);
   for ( k=uExt[2]; k <= uExt[3]; ++k)
@@ -365,7 +365,7 @@ void vtkExtractRectilinearGrid::Execute()
     {
     vtkWarningMacro("Multiple componenet axis coordinate.");
     }
-  outCoords = vtkFloatArray::New();
+  outCoords = vtkDoubleArray::New();
   outCoords->Allocate(uExt[5]-uExt[4]+1);
   outCoords->SetNumberOfTuples(uExt[5]-uExt[4]+1);
   for ( k=uExt[4]; k <= uExt[5]; ++k)

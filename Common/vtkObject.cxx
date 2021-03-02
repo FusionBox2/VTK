@@ -24,18 +24,20 @@ vtkCxxRevisionMacro(vtkObject, "1.87");
 static int vtkObjectGlobalWarningDisplay = 1;
 
 
-// avoid dll boundary problems
-#ifdef _WIN32
-void* vtkObject::operator new(size_t nSize)
-{
-  void* p=malloc(nSize);
-  return p;
-}
+#ifndef _DEBUG
+  // avoid dll boundary problems
+  #ifdef _WIN32
+  void* vtkObject::operator new(size_t nSize)
+  {
+    void* p=malloc(nSize);
+    return p;
+  }
 
-void vtkObject::operator delete( void *p )
-{
-  free(p);
-}
+  void vtkObject::operator delete( void *p )
+  {
+    free(p);
+  }
+  #endif 
 #endif 
 
 void vtkObject::SetGlobalWarningDisplay(int val)

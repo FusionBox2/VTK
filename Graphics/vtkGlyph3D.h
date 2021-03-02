@@ -172,6 +172,10 @@ public:
   vtkBooleanMacro(Clamping,int);
   vtkGetMacro(Clamping,int);
 
+	vtkSetMacro(NormalizeScaling,int);
+	vtkBooleanMacro(NormalizeScaling,int);
+	vtkGetMacro(NormalizeScaling,int);
+
   // Description:
   // Specify whether to use vector or normal to perform vector operations.
   vtkSetMacro(VectorMode,int);
@@ -250,6 +254,8 @@ protected:
   int IndexMode; // what to use to index into glyph table
   int GeneratePointIds; // produce input points ids for each output point
   char *PointIdsName;
+
+	int NormalizeScaling;
 
   char *InputScalarsSelection;
   char *InputVectorsSelection;

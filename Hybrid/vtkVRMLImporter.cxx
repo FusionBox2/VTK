@@ -5428,6 +5428,9 @@ int vtkVRMLImporter::OpenImportFile ()
 int vtkVRMLImporter::ImportBegin ()
 {
 
+  yy_init = 1; //patch by Daniele Giunchi for permit more execution in the same session 2008-1-25
+  
+
   memyyInput_i = 0;
   memyyInput_j = 0;
 

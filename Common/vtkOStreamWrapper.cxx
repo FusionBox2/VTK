@@ -50,7 +50,7 @@ VTKOSTREAM_OPERATOR(const vtkIndent&);
 VTKOSTREAM_OPERATOR(vtkObjectBase&);
 VTKOSTREAM_OPERATOR(const vtkLargeInteger&);
 VTKOSTREAM_OPERATOR(const vtkSmartPointerBase&);
-VTKOSTREAM_OPERATOR(ostream&);
+//VTKOSTREAM_OPERATOR(ostream&);	//BES: 15.8.2014 - meaningless code impossible to build with VS 2013
 VTKOSTREAM_OPERATOR(const char*);
 VTKOSTREAM_OPERATOR(void*);
 VTKOSTREAM_OPERATOR(char);

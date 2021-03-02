@@ -55,12 +55,14 @@ public:
   // to zero, and reference counting on.
   static vtkObject *New();
 
-#ifdef _WIN32
-  // avoid dll boundary problems
-  void* operator new( size_t tSize );
-  void operator delete( void* p );
-#endif 
-  
+#ifndef _DEBUG
+  #ifdef _WIN32
+    // avoid dll boundary problems
+    void* operator new( size_t tSize );
+    void operator delete( void* p );
+  #endif 
+#endif   
+
   // Description:
   // Turn debugging output on.
   virtual void DebugOn();

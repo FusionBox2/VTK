@@ -76,6 +76,11 @@ tms     vtkTimerLog::CurrentCpuTicks;
 #endif
 
 //----------------------------------------------------------------------------
+vtkTimerLog::~vtkTimerLog()
+{
+  //CleanupLog();
+}
+//----------------------------------------------------------------------------
 // Allocate timing table with MaxEntries elements.
 void vtkTimerLog::AllocateLog()
 {
@@ -85,17 +90,17 @@ void vtkTimerLog::AllocateLog()
     }
   vtkTimerLog::TimerLog = new vtkTimerLogEntry[vtkTimerLog::MaxEntries];
 }
-
 //----------------------------------------------------------------------------
 // Remove timer log.
 void vtkTimerLog::CleanupLog()
 {
-  if ( vtkTimerLog::TimerLog )
+  if ( !vtkTimerLog::TimerLog )
     {
     return;
     }
   delete [] vtkTimerLog::TimerLog;
   vtkTimerLog::TimerLog = 0;
+  ResetLog();
 }
 
 //----------------------------------------------------------------------------

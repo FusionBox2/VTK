@@ -438,8 +438,12 @@ vtkFreeTypeFontCache::Entry* vtkFreeTypeFontCache::GetFont(vtkTextProperty *tpro
         }
       }
     };
-    
+
+#if (defined(WIN64) || defined(_WIN64))    
+		long length = EmbeddedFonts[tprop->GetFontFamily()][tprop->GetBold()][tprop->GetItalic()].length;
+#else
     size_t length = EmbeddedFonts[tprop->GetFontFamily()][tprop->GetBold()][tprop->GetItalic()].length;
+#endif
     unsigned char *ptr = EmbeddedFonts[tprop->GetFontFamily()][tprop->GetBold()][tprop->GetItalic()].ptr;
 
     if (!font->Open(ptr, length, false))

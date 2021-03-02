@@ -145,7 +145,12 @@ SET (VTKFTGL_LIBS "${VTKFTGL_LIBS};${OPENGL_LIBRARY}")
 #
 # We obviously need FreeType
 #
-SET (VTKFTGL_LIBS "${VTKFTGL_LIBS};vtkfreetype")
+#SET (VTKFTGL_LIBS "${VTKFTGL_LIBS};vtkfreetype")
+IF (WIN32)
+	SET (VTKFTGL_LIBS "${VTKFTGL_LIBS};vtkfreetype")
+ELSE (WIN32)
+	SET (VTKFTGL_LIBS "${VTKFTGL_LIBS};freetype;vtkfreetype")
+ENDIF (WIN32)
 
 #
 # Define the library (and install it)
@@ -238,7 +243,12 @@ IF (FTGL_BUILD_EXAMPLES)
     #
     # Link examples to FTGL and Freetype
     #
-    SET (VTKFTGL_EXAMPLES_LIBS "${VTKFTGL_EXAMPLES_LIBS};vtkftgl;vtkfreetype")
+    #SET (VTKFTGL_EXAMPLES_LIBS "${VTKFTGL_EXAMPLES_LIBS};vtkftgl;vtkfreetype")
+    IF (WIN32)
+    	SET (VTKFTGL_EXAMPLES_LIBS "${VTKFTGL_EXAMPLES_LIBS};vtkftgl;vtkfreetype")
+    ELSE (WIN32)
+    	SET (VTKFTGL_EXAMPLES_LIBS "${VTKFTGL_EXAMPLES_LIBS};vtkftgl;freetype;vtkfreetype")
+    ENDIF (WIN32)
 
     #
     # Example 1

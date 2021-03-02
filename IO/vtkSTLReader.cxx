@@ -355,21 +355,28 @@ int vtkSTLReader::ReadASCIISTL(FILE *fp, vtkPoints *newPts,
 
 int vtkSTLReader::GetSTLFileType(FILE *fp)
 {
-  unsigned char header[256];
+  unsigned char header[80];
   int type, i;
   int numChars;
 
   //  Read a little from the file to figure what type it is.
   //
-  // skip 255 characters so we are past any first line comment */
-  numChars = static_cast<int>(fread ((unsigned char *)header, 1, 255, fp));
-  for (i = 0, type=VTK_ASCII; i< numChars && type == VTK_ASCII; i++) // don't test \0
+  // From Wikipedia: A binary STL file has an 80 character header 
+  // (which is generally ignored - but which should never begin with 'solid' 
+  // because that will lead most software to assume that this is an ASCII STL file)
+  numChars = static_cast<int>(fread ((unsigned char *)header, 1, 80, fp));
+  for (i = 0, type = VTK_BINARY; i < numChars - 5; i++) // don't test \0
+  {
+    if (header[i] == 's' &&
+        header[i+1] == 'o' &&
+        header[i+2] == 'l' &&
+        header[i+3] == 'i' &&
+        header[i+4] == 'd')
     {
-    if (header[i] > 127)
-      {
-      type = VTK_BINARY;
-      }
+      type = VTK_ASCII;
+      break;
     }
+  }
 
   // Reset file for reading
   //

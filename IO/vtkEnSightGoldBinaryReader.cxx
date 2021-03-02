@@ -2871,7 +2871,7 @@ int vtkEnSightGoldBinaryReader::CreateImageDataOutput(int partId,
 // Returns zero if there was an error.
 int vtkEnSightGoldBinaryReader::ReadLine(char result[80])
 {
-  if ( this->IFile->read(result, 80) == 0)
+  if ( this->IFile->read(result, 80).fail())
     {
     // The read fails when reading the last part/array when there are no points.
     // I took out the error macro as a tempory fix.
@@ -2929,7 +2929,7 @@ int vtkEnSightGoldBinaryReader::ReadPartId(int *result)
 // Returns zero if there was an error.
 int vtkEnSightGoldBinaryReader::ReadInt(int *result)
 {
-  if ( this->IFile->read((char*)result, sizeof(int)) == 0)
+  if ( this->IFile->read((char*)result, sizeof(int)).fail())
     {
     vtkErrorMacro("Read failed");
     return 0;
@@ -2957,7 +2957,7 @@ int vtkEnSightGoldBinaryReader::ReadIntArray(int *result,
     return 1;
     }
   
-  if (this->IFile->read((char*)result, sizeof(int)*numInts) == 0)
+  if (this->IFile->read((char*)result, sizeof(int)*numInts).fail())
     {
     vtkErrorMacro("Read failed.");
     return 0;
@@ -2985,7 +2985,7 @@ int vtkEnSightGoldBinaryReader::ReadFloatArray(float *result,
     return 1;
     }
 
-  if (this->IFile->read((char*)result, sizeof(float)*numFloats) == 0)
+  if (this->IFile->read((char*)result, sizeof(float)*numFloats).fail())
     {
     vtkErrorMacro("Read failed");
     return 0;

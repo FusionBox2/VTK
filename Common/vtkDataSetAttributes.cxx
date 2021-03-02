@@ -715,6 +715,7 @@ void vtkDataSetAttributes::CopyTuple(vtkDataArray *fromData,
       {
       float *to=((vtkFloatArray *)toData)->WritePointer(toId*numComp,numComp);
       float *from=((vtkFloatArray *)fromData)->GetPointer(fromId*numComp);
+      if(!(to && from)) return;
       for (i=0; i<numComp; i++)
         {
         *to++ = *from++;
@@ -767,6 +768,7 @@ void vtkDataSetAttributes::InterpolateTuple(vtkDataArray *fromData,
       {
       vtkBitArray *from=(vtkBitArray *)fromData;
       vtkBitArray *to=(vtkBitArray *)toData;
+      if(!(to && from)) return;
       for (i=0; i<numComp; i++)
         {
         for (c=0, j=0; j<numIds; j++)
@@ -782,6 +784,7 @@ void vtkDataSetAttributes::InterpolateTuple(vtkDataArray *fromData,
       {
       char *from=((vtkCharArray *)fromData)->GetPointer(0);
       char *to=((vtkCharArray *)toData)->WritePointer(idx,numComp);
+      if(!(to && from)) return;
       for (i=0; i<numComp; i++)
         {
         for (c=0, j=0; j<numIds; j++)
@@ -797,6 +800,7 @@ void vtkDataSetAttributes::InterpolateTuple(vtkDataArray *fromData,
       {
       unsigned char *to=((vtkUnsignedCharArray *)toData)->WritePointer(idx,numComp);
       unsigned char *from=((vtkUnsignedCharArray *)fromData)->GetPointer(0);
+      if(!(to && from)) return;
       for (i=0; i<numComp; i++)
         {
         for (c=0, j=0; j<numIds; j++)
@@ -812,6 +816,7 @@ void vtkDataSetAttributes::InterpolateTuple(vtkDataArray *fromData,
       {
       short *to=((vtkShortArray *)toData)->WritePointer(idx,numComp);
       short *from=((vtkShortArray *)fromData)->GetPointer(0);
+      if(!(to && from)) return;
       for (i=0; i<numComp; i++)
         {
         for (c=0, j=0; j<numIds; j++)
@@ -827,6 +832,7 @@ void vtkDataSetAttributes::InterpolateTuple(vtkDataArray *fromData,
       {
       unsigned short *to=((vtkUnsignedShortArray *)toData)->WritePointer(idx,numComp);
       unsigned short *from=((vtkUnsignedShortArray *)fromData)->GetPointer(0);
+      if(!(to && from)) return;
       for (i=0; i<numComp; i++)
         {
         for (c=0, j=0; j<numIds; j++)
@@ -842,6 +848,7 @@ void vtkDataSetAttributes::InterpolateTuple(vtkDataArray *fromData,
       {
       int *to=((vtkIntArray *)toData)->WritePointer(idx,numComp);
       int *from=((vtkIntArray *)fromData)->GetPointer(0);
+      if(!(to && from)) return;
       for (i=0; i<numComp; i++)
         {
         for (c=0, j=0; j<numIds; j++)
@@ -857,6 +864,7 @@ void vtkDataSetAttributes::InterpolateTuple(vtkDataArray *fromData,
       {
       unsigned int *to=((vtkUnsignedIntArray *)toData)->WritePointer(idx,numComp);
       unsigned int *from=((vtkUnsignedIntArray *)fromData)->GetPointer(0);
+      if(!(to && from)) return;
       for (i=0; i<numComp; i++)
         {
         for (c=0, j=0; j<numIds; j++)
@@ -872,6 +880,7 @@ void vtkDataSetAttributes::InterpolateTuple(vtkDataArray *fromData,
       {
       long *to=((vtkLongArray *)toData)->WritePointer(idx,numComp);
       long *from=((vtkLongArray *)fromData)->GetPointer(0);
+      if(!(to && from)) return;
       for (i=0; i<numComp; i++)
         {
         for (c=0, j=0; j<numIds; j++)
@@ -887,6 +896,7 @@ void vtkDataSetAttributes::InterpolateTuple(vtkDataArray *fromData,
       {
       unsigned long *to=((vtkUnsignedLongArray *)toData)->WritePointer(idx,numComp);
       unsigned long *from=((vtkUnsignedLongArray *)fromData)->GetPointer(0);
+      if(!(to && from)) return;
       for (i=0; i<numComp; i++)
         {
         for (c=0, j=0; j<numIds; j++)
@@ -902,6 +912,7 @@ void vtkDataSetAttributes::InterpolateTuple(vtkDataArray *fromData,
       {
       float *to=((vtkFloatArray *)toData)->WritePointer(idx,numComp);
       float *from=((vtkFloatArray *)fromData)->GetPointer(0);
+      if(!(to && from)) return;
       for (i=0; i<numComp; i++)
         {
         for (c=0.0, j=0; j<numIds; j++)
@@ -917,6 +928,7 @@ void vtkDataSetAttributes::InterpolateTuple(vtkDataArray *fromData,
       {
       double *to=((vtkDoubleArray *)toData)->WritePointer(idx,numComp);
       double *from=((vtkDoubleArray *)fromData)->GetPointer(0);
+      if(!(to && from)) return;
       for (i=0; i<numComp; i++)
         {
         for (c=0.0, j=0; j<numIds; j++)
@@ -932,6 +944,7 @@ void vtkDataSetAttributes::InterpolateTuple(vtkDataArray *fromData,
       {
       vtkIdType *to=((vtkIdTypeArray *)toData)->WritePointer(idx,numComp);
       vtkIdType *from=((vtkIdTypeArray *)fromData)->GetPointer(0);
+      if(!(to && from)) return;
       for (i=0; i<numComp; i++)
         {
         for (c=0, j=0; j<numIds; j++)
@@ -964,6 +977,7 @@ void vtkDataSetAttributes::InterpolateTuple(vtkDataArray *fromData,
       {
       vtkBitArray *from=(vtkBitArray *)fromData;
       vtkBitArray *to=(vtkBitArray *)toData;
+      if(!(to && from)) return;
       for (i=0; i<numComp; i++)
         {
         c = from->GetValue(idx1+i)+ t * (from->GetValue(idx2+i) - from->GetValue(idx1+i));
@@ -976,6 +990,7 @@ void vtkDataSetAttributes::InterpolateTuple(vtkDataArray *fromData,
       {
       char *to=((vtkCharArray *)toData)->WritePointer(idx,numComp);
       char *from=((vtkCharArray *)fromData)->GetPointer(0);
+      if(!(to && from)) return;
       for (i=0; i<numComp; i++)
         {
         c = from[idx1+i] + t * (from[idx2+i] - from[idx1+i]);
@@ -988,6 +1003,7 @@ void vtkDataSetAttributes::InterpolateTuple(vtkDataArray *fromData,
       {
       unsigned char *to=((vtkUnsignedCharArray *)toData)->WritePointer(idx,numComp);
       unsigned char *from=((vtkUnsignedCharArray *)fromData)->GetPointer(0);
+      if(!(to && from)) return;
       for (i=0; i<numComp; i++)
         {
         c = from[idx1+i] + t * (from[idx2+i] - from[idx1+i]);
@@ -1000,6 +1016,7 @@ void vtkDataSetAttributes::InterpolateTuple(vtkDataArray *fromData,
       {
       short *to=((vtkShortArray *)toData)->WritePointer(idx,numComp);
       short *from=((vtkShortArray *)fromData)->GetPointer(0);
+      if(!(to && from)) return;
       for (i=0; i<numComp; i++)
         {
         c = from[idx1+i] + t * (from[idx2+i] - from[idx1+i]);
@@ -1012,6 +1029,7 @@ void vtkDataSetAttributes::InterpolateTuple(vtkDataArray *fromData,
       {
       unsigned short *to=((vtkUnsignedShortArray *)toData)->WritePointer(idx,numComp);
       unsigned short *from=((vtkUnsignedShortArray *)fromData)->GetPointer(0);
+      if(!(to && from)) return;
       for (i=0; i<numComp; i++)
         {
         c = from[idx1+i] + t * (from[idx2+i] - from[idx1+i]);
@@ -1024,6 +1042,7 @@ void vtkDataSetAttributes::InterpolateTuple(vtkDataArray *fromData,
       {
       int *to=((vtkIntArray *)toData)->WritePointer(idx,numComp);
       int *from=((vtkIntArray *)fromData)->GetPointer(0);
+      if(!(to && from)) return;
       for (i=0; i<numComp; i++)
         {
         c = from[idx1+i] + t * (from[idx2+i] - from[idx1+i]);
@@ -1036,6 +1055,7 @@ void vtkDataSetAttributes::InterpolateTuple(vtkDataArray *fromData,
       {
       unsigned int *to=((vtkUnsignedIntArray *)toData)->WritePointer(idx,numComp);
       unsigned int *from=((vtkUnsignedIntArray *)fromData)->GetPointer(0);
+      if(!(to && from)) return;
       for (i=0; i<numComp; i++)
         {
         c = from[idx1+i] + t * (from[idx2+i] - from[idx1+i]);
@@ -1048,6 +1068,7 @@ void vtkDataSetAttributes::InterpolateTuple(vtkDataArray *fromData,
       {
       long *to=((vtkLongArray *)toData)->WritePointer(idx,numComp);
       long *from=((vtkLongArray *)fromData)->GetPointer(0);
+      if(!(to && from)) return;
       for (i=0; i<numComp; i++)
         {
         c = (double)from[idx1+i] + t * (double)(from[idx2+i] - from[idx1+i]);
@@ -1060,6 +1081,7 @@ void vtkDataSetAttributes::InterpolateTuple(vtkDataArray *fromData,
       {
       unsigned long *to=((vtkUnsignedLongArray *)toData)->WritePointer(idx,numComp);
       unsigned long *from=((vtkUnsignedLongArray *)fromData)->GetPointer(0);
+      if(!(to && from)) return;
       for (i=0; i<numComp; i++)
         {
         c = (double)from[idx1+i] + t * (double)(from[idx2+i] - from[idx1+i]);
@@ -1072,6 +1094,7 @@ void vtkDataSetAttributes::InterpolateTuple(vtkDataArray *fromData,
       {
       float *to=((vtkFloatArray *)toData)->WritePointer(idx,numComp);
       float *from=((vtkFloatArray *)fromData)->GetPointer(0);
+      if(!(to && from)) return;
       for (i=0; i<numComp; i++)
         {
         c = (1.0 - t) * from[idx1+i] + t * from[idx2+i];
@@ -1084,6 +1107,7 @@ void vtkDataSetAttributes::InterpolateTuple(vtkDataArray *fromData,
       {
       double *to=((vtkDoubleArray *)toData)->WritePointer(idx,numComp);
       double *from=((vtkDoubleArray *)fromData)->GetPointer(0);
+      if(!(to && from)) return;
       for (i=0; i<numComp; i++)
         {
         c = (1.0 - t) * from[idx1+i] + t * from[idx2+i];
@@ -1096,6 +1120,7 @@ void vtkDataSetAttributes::InterpolateTuple(vtkDataArray *fromData,
       {
       vtkIdType *to=((vtkIdTypeArray *)toData)->WritePointer(idx,numComp);
       vtkIdType *from=((vtkIdTypeArray *)fromData)->GetPointer(0);
+      if(!(to && from)) return;
       for (i=0; i<numComp; i++)
         {
         c = (double)from[idx1+i] + t * (double)(from[idx2+i] - from[idx1+i]);
@@ -1125,6 +1150,7 @@ void vtkDataSetAttributes::InterpolateTuple(vtkDataArray *fromData1,
       vtkBitArray *from1=(vtkBitArray *)fromData1;
       vtkBitArray *from2=(vtkBitArray *)fromData2;
       vtkBitArray *to=(vtkBitArray *)toData;
+      if(!(to && from1 && from2)) return;
       for (i=0; i<numComp; i++)
         {
         ii = idx + i;
@@ -1139,6 +1165,7 @@ void vtkDataSetAttributes::InterpolateTuple(vtkDataArray *fromData1,
       char *to=((vtkCharArray *)toData)->WritePointer(idx,numComp);
       char *from1=((vtkCharArray *)fromData1)->GetPointer(0);
       char *from2=((vtkCharArray *)fromData2)->GetPointer(0);
+      if(!(to && from1 && from2)) return;
       for (i=0; i<numComp; i++)
         {
         ii = idx + i;
@@ -1153,6 +1180,7 @@ void vtkDataSetAttributes::InterpolateTuple(vtkDataArray *fromData1,
       unsigned char *to=((vtkUnsignedCharArray *)toData)->WritePointer(idx,numComp);
       unsigned char *from1=((vtkUnsignedCharArray *)fromData1)->GetPointer(0);
       unsigned char *from2=((vtkUnsignedCharArray *)fromData2)->GetPointer(0);
+      if(!(to && from1 && from2)) return;
       for (i=0; i<numComp; i++)
         {
         ii = idx + i;
@@ -1167,6 +1195,7 @@ void vtkDataSetAttributes::InterpolateTuple(vtkDataArray *fromData1,
       short *to=((vtkShortArray *)toData)->WritePointer(idx,numComp);
       short *from1=((vtkShortArray *)fromData1)->GetPointer(0);
       short *from2=((vtkShortArray *)fromData2)->GetPointer(0);
+      if(!(to && from1 && from2)) return;
       for (i=0; i<numComp; i++)
         {
         ii = idx + i;
@@ -1181,6 +1210,7 @@ void vtkDataSetAttributes::InterpolateTuple(vtkDataArray *fromData1,
       unsigned short *to=((vtkUnsignedShortArray *)toData)->WritePointer(idx,numComp);
       unsigned short *from1=((vtkUnsignedShortArray *)fromData1)->GetPointer(0);
       unsigned short *from2=((vtkUnsignedShortArray *)fromData2)->GetPointer(0);
+      if(!(to && from1 && from2)) return;
       for (i=0; i<numComp; i++)
         {
         ii = idx + i;
@@ -1195,6 +1225,7 @@ void vtkDataSetAttributes::InterpolateTuple(vtkDataArray *fromData1,
       int *to=((vtkIntArray *)toData)->WritePointer(idx,numComp);
       int *from1=((vtkIntArray *)fromData1)->GetPointer(0);
       int *from2=((vtkIntArray *)fromData2)->GetPointer(0);
+      if(!(to && from1 && from2)) return;
       for (i=0; i<numComp; i++)
         {
         ii = idx + i;
@@ -1209,6 +1240,7 @@ void vtkDataSetAttributes::InterpolateTuple(vtkDataArray *fromData1,
       unsigned int *to=((vtkUnsignedIntArray *)toData)->WritePointer(idx,numComp);
       unsigned int *from1=((vtkUnsignedIntArray *)fromData1)->GetPointer(0);
       unsigned int *from2=((vtkUnsignedIntArray *)fromData2)->GetPointer(0);
+      if(!(to && from1 && from2)) return;
       for (i=0; i<numComp; i++)
         {
         ii = idx + i;
@@ -1223,6 +1255,7 @@ void vtkDataSetAttributes::InterpolateTuple(vtkDataArray *fromData1,
       long *to=((vtkLongArray *)toData)->WritePointer(idx,numComp);
       long *from1=((vtkLongArray *)fromData1)->GetPointer(0);
       long *from2=((vtkLongArray *)fromData2)->GetPointer(0);
+      if(!(to && from1 && from2)) return;
       for (i=0; i<numComp; i++)
         {
         ii = idx + i;
@@ -1237,6 +1270,7 @@ void vtkDataSetAttributes::InterpolateTuple(vtkDataArray *fromData1,
       unsigned long *to=((vtkUnsignedLongArray *)toData)->WritePointer(idx,numComp);
       unsigned long *from1=((vtkUnsignedLongArray *)fromData1)->GetPointer(0);
       unsigned long *from2=((vtkUnsignedLongArray *)fromData2)->GetPointer(0);
+      if(!(to && from1 && from2)) return;
       for (i=0; i<numComp; i++)
         {
         ii = idx + i;
@@ -1251,6 +1285,7 @@ void vtkDataSetAttributes::InterpolateTuple(vtkDataArray *fromData1,
       float *to=((vtkFloatArray *)toData)->WritePointer(idx,numComp);
       float *from1=((vtkFloatArray *)fromData1)->GetPointer(0);
       float *from2=((vtkFloatArray *)fromData2)->GetPointer(0);
+      if(!(to && from1 && from2)) return;
       for (i=0; i<numComp; i++)
         {
         ii = idx + i;
@@ -1265,6 +1300,7 @@ void vtkDataSetAttributes::InterpolateTuple(vtkDataArray *fromData1,
       double *to=((vtkDoubleArray *)toData)->WritePointer(idx,numComp);
       double *from1=((vtkDoubleArray *)fromData1)->GetPointer(0);
       double *from2=((vtkDoubleArray *)fromData2)->GetPointer(0);
+      if(!(to && from1 && from2)) return;
       for (i=0; i<numComp; i++)
         {
         ii = idx + i;
@@ -1279,6 +1315,7 @@ void vtkDataSetAttributes::InterpolateTuple(vtkDataArray *fromData1,
       vtkIdType *to=((vtkIdTypeArray *)toData)->WritePointer(idx,numComp);
       vtkIdType *from1=((vtkIdTypeArray *)fromData1)->GetPointer(0);
       vtkIdType *from2=((vtkIdTypeArray *)fromData2)->GetPointer(0);
+      if(!(to && from1 && from2)) return;
       for (i=0; i<numComp; i++)
         {
         ii = idx + i;

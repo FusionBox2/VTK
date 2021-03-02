@@ -80,6 +80,10 @@ public:
   vtkGetStringMacro(Caption);
 
   // Description:
+  // Enable/disable the text scaling.
+  void SetCaptionActorScaling(int arg);
+
+  // Description:
   // Set/Get the attachment point for the caption. By default, the attachment
   // point is defined in world coordinates, but this can be changed using
   // vtkCoordinate methods.
@@ -133,9 +137,29 @@ public:
   vtkGetMacro(Padding, int);
 
   // Description:
+  // Set/Get the possibility of constraint actor inside the viewport
+  vtkSetMacro(ConstraintInsideViewport,int);
+  vtkGetMacro(ConstraintInsideViewport,int);
+
+  // Description:
   // Set/Get the text property.
   virtual void SetCaptionTextProperty(vtkTextProperty *p);
   vtkGetObjectMacro(CaptionTextProperty,vtkTextProperty);
+
+
+  enum ID_CAPTION2D_CONSTRAINT
+  {
+    ID_LEFT_BOTTOM = 0,
+    ID_LEFT_TOP, 
+    ID_RIGHT_BOTTOM,
+    ID_RIGHT_TOP,
+  };
+
+  vtkSetClampMacro(AngleViewportConstraintInsideViewport,int,0,3);
+  vtkGetMacro(AngleViewportConstraintInsideViewport,int);
+
+  vtkSetVector2Macro(DisplayOffsetConstraintInsideViewport,int);
+  vtkGetVector2Macro(DisplayOffsetConstraintInsideViewport,int);
     
   // Description:
   // Shallow copy of this scaled text actor. Overloads the virtual
@@ -172,10 +196,16 @@ protected:
   int   ThreeDimensionalLeader;
   double LeaderGlyphSize;
   int   MaximumLeaderGlyphSize;
+  int   ScalingText;
+  
+  
 
   vtkPolyData *LeaderGlyph; //what to put on the end of the leader
   
   int   Padding;
+  int   ConstraintInsideViewport;
+  int   AngleViewportConstraintInsideViewport;
+  int   DisplayOffsetConstraintInsideViewport[2];
 
 private:
   vtkTextActor        *CaptionActor;
@@ -189,6 +219,8 @@ private:
   vtkGlyph3D          *HeadGlyph;       // for 3D leader
   vtkPolyData         *LeaderPolyData;  // line represents the leader
   vtkAppendPolyData   *AppendLeader;    // append head and leader
+
+  
   
   // for 2D leader
   vtkCoordinate       *MapperCoordinate2D;

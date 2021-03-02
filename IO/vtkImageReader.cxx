@@ -301,7 +301,7 @@ void vtkImageReaderUpdate2(vtkImageReader *self, vtkImageData *data,
         {
         vtkGenericWarningMacro("File operation failed. row = " << idx1
                                << ", Tried to Read = " << streamRead
-                               << ", Read = " << self->GetFile()->gcount()
+                               << ", Read = " << static_cast<vtkIdType>(self->GetFile()->gcount())
                                << ", Skip0 = " << streamSkip0
                                << ", Skip1 = " << streamSkip1
                                << ", FilePos = " << static_cast<vtkIdType>(self->GetFile()->tellg()));

@@ -45,6 +45,7 @@
 #define VTK_CONJUGATE         18
 #define VTK_COMPLEX_MULTIPLY  19
 #define VTK_REPLACECBYK       20
+#define VTK_ADD_THRESOLD      21
 
 #include "vtkImageTwoInputFilter.h"
 
@@ -60,6 +61,7 @@ public:
   vtkSetMacro(Operation,int);
   vtkGetMacro(Operation,int);
   void SetOperationToAdd() {this->SetOperation(VTK_ADD);};
+  void SetOperationToAddWithThresold() {this->SetOperation(VTK_ADD_THRESOLD);};
   void SetOperationToSubtract() {this->SetOperation(VTK_SUBTRACT);};
   void SetOperationToMultiply() {this->SetOperation(VTK_MULTIPLY);};
   void SetOperationToDivide() {this->SetOperation(VTK_DIVIDE);};
@@ -92,6 +94,11 @@ public:
   vtkSetMacro(DivideByZeroToC,int);
   vtkGetMacro(DivideByZeroToC,int);
   vtkBooleanMacro(DivideByZeroToC,int);
+  
+  vtkSetMacro(Amount,double);
+  vtkGetMacro(Amount,double);
+  vtkSetMacro(Thresold,double);
+  vtkGetMacro(Thresold,double);
 
 protected:
   vtkImageMathematics();
@@ -101,6 +108,9 @@ protected:
   double ConstantK;
   double ConstantC;
   int DivideByZeroToC;
+  
+  double Amount;
+  double Thresold;
   
   void ExecuteInformation(vtkImageData **inDatas, vtkImageData *outData);
   void ExecuteInformation(){this->vtkImageTwoInputFilter::ExecuteInformation();};

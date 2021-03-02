@@ -76,12 +76,14 @@ public:
   static vtkObjectBase *New() 
     {return new vtkObjectBase;}
   
-#ifdef _WIN32
-  // avoid dll boundary problems
-  void* operator new( size_t tSize );
-  void operator delete( void* p );
+#ifndef _DEBUG
+  #ifdef _WIN32
+    // avoid dll boundary problems
+    void* operator new( size_t tSize );
+    void operator delete( void* p );
+  #endif 
 #endif 
-  
+
   // Description:
   // Print an object to an ostream. This is the method to call
   // when you wish to see print the internal state of an object.

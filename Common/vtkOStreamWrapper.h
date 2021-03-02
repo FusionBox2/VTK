@@ -53,7 +53,7 @@ public:
   vtkOStreamWrapper& operator << (vtkObjectBase&);
   vtkOStreamWrapper& operator << (const vtkLargeInteger&);
   vtkOStreamWrapper& operator << (const vtkSmartPointerBase&);
-  vtkOStreamWrapper& operator << (ostream&);
+  //vtkOStreamWrapper& operator << (ostream&);	//meaningless code
   vtkOStreamWrapper& operator << (const char*);
   vtkOStreamWrapper& operator << (void*);
   vtkOStreamWrapper& operator << (char);

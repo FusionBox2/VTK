@@ -37,3 +37,11 @@ ADD_LIBRARY(vtkzlib ${ZLIB_SRCS})
 
 INSTALL_TARGETS(/lib/vtk vtkzlib)
 INSTALL_FILES(/include/vtk .h zlib zconf zlibDllConfig)
+# Visual Studio 2010 does not set the right target machine for this subproject
+if(${CMAKE_GENERATOR} STREQUAL "Visual Studio 10")
+    set_target_properties(vtkzlib PROPERTIES STATIC_LIBRARY_FLAGS "/machine:x86")
+endif(${CMAKE_GENERATOR} STREQUAL "Visual Studio 10")
+
+if(${CMAKE_GENERATOR} STREQUAL "Visual Studio 10 Win64")
+    set_target_properties(vtkzlib PROPERTIES STATIC_LIBRARY_FLAGS "/machine:x64")
+endif(${CMAKE_GENERATOR} STREQUAL "Visual Studio 10 Win64")

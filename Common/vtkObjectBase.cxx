@@ -18,19 +18,21 @@
 
 #define vtkBaseDebugMacro(x)
 
-// avoid dll boundary problems
-#ifdef _WIN32
-void* vtkObjectBase::operator new(size_t nSize)
-{
-  void* p=malloc(nSize);
-  return p;
-}
+#ifndef _DEBUG
+  // avoid dll boundary problems
+  #ifdef _WIN32
+  void* vtkObjectBase::operator new(size_t nSize)
+  {
+    void* p=malloc(nSize);
+    return p;
+  }
 
-void vtkObjectBase::operator delete( void *p )
-{
-  free(p);
-}
-#endif 
+  void vtkObjectBase::operator delete( void *p )
+  {
+    free(p);
+  }
+  #endif 
+#endif
 
 // ------------------------------------vtkObjectBase----------------------
 // This operator allows all subclasses of vtkObjectBase to be printed via <<.

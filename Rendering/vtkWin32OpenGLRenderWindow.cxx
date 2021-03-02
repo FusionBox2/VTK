@@ -29,7 +29,7 @@
 
 #include <math.h>
 
-#if defined(_MSC_VER) || defined (__BORLANDC__)
+#if (defined(_MSC_VER) && _MSC_VER < 1500) || defined (__BORLANDC__)
 #include <GL/glaux.h>
 #else
 #include <GL/gl.h>
@@ -637,8 +637,12 @@ void vtkWin32OpenGLRenderWindow::InitializeApplication()
     // if we have a parent window get the app instance from it
     if (this->ParentId)
       {
-      this->ApplicationInstance = (HINSTANCE)vtkGetWindowLong(this->ParentId,GWL_HINSTANCE);
-      }
+#if (defined(WIN64) || defined(_WIN64))
+				this->ApplicationInstance = (HINSTANCE)vtkGetWindowLong(this->ParentId,GWLP_HINSTANCE);
+#else
+				this->ApplicationInstance = (HINSTANCE)vtkGetWindowLong(this->ParentId,GWL_HINSTANCE);
+#endif
+			}
     else
       {
       this->ApplicationInstance = GetModuleHandle(NULL); /*AfxGetInstanceHandle();*/

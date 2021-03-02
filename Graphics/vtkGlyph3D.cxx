@@ -52,6 +52,8 @@ vtkGlyph3D::vtkGlyph3D()
   this->InputScalarsSelection = NULL;
   this->InputVectorsSelection = NULL;
   this->InputNormalsSelection = NULL;
+
+  this->NormalizeScaling = 0;
 }
 
 vtkGlyph3D::~vtkGlyph3D()
@@ -89,6 +91,7 @@ void vtkGlyph3D::Execute()
   vtkIdType ptIncr, cellId;
   int haveVectors, haveNormals;
   double scalex,scaley,scalez, den;
+  double apposcalex = 1.0,apposcaley = 1.0,apposcalez = 1.0;
   vtkPolyData *output = this->GetOutput();
   vtkPointData *outputPD = output->GetPointData();
   vtkDataSet *input = this->GetInput();
@@ -366,6 +369,13 @@ void vtkGlyph3D::Execute()
       scalez = (scalez - this->Range[0]) / den;
       }
     
+    if(this->NormalizeScaling && this->ScaleMode == VTK_SCALE_BY_SCALAR)
+ 		{
+      		apposcalex = (scalex - Range[0])/(Range[1] - Range[0]);
+ 			apposcaley = (scaley - Range[0])/(Range[1] - Range[0]);
+ 			apposcalez = (scalez - Range[0])/(Range[1] - Range[0]);
+ 		}
+
     // Compute index into table of glyphs
     if ( this->IndexMode == VTK_INDEXING_OFF )
       {
@@ -494,14 +504,32 @@ void vtkGlyph3D::Execute()
       if ( this->ScaleMode == VTK_DATA_SCALING_OFF )
         {
         scalex = scaley = scalez = this->ScaleFactor;
-        }
+        apposcalex = apposcaley = apposcalez = this->ScaleFactor;
+      }
       else
         {
         scalex *= this->ScaleFactor;
         scaley *= this->ScaleFactor;
         scalez *= this->ScaleFactor;
-        }
-      
+
+        apposcalex *= this->ScaleFactor;
+        apposcaley *= this->ScaleFactor;
+		apposcalez *= this->ScaleFactor;
+      }
+
+      if ( apposcalex == 0.0 )
+      {
+        apposcalex = 1.0e-10;
+      }
+      if ( apposcaley == 0.0 )
+      {
+        apposcaley = 1.0e-10;
+      }
+      if ( apposcalez == 0.0 )
+      {
+        apposcalez = 1.0e-10;
+      }
+
       if ( scalex == 0.0 )
         {
         scalex = 1.0e-10;
@@ -513,10 +541,13 @@ void vtkGlyph3D::Execute()
       if ( scalez == 0.0 )
         {
         scalez = 1.0e-10;
-        }
-      trans->Scale(scalex,scaley,scalez);
       }
-    
+      if(this->NormalizeScaling && this->ScaleMode == VTK_SCALE_BY_SCALAR)
+        trans->Scale(apposcalex,apposcaley,apposcalez);
+      else
+        trans->Scale(scalex,scaley,scalez);
+    }
+
     // multiply points and normals by resulting matrix
     trans->TransformPoints(sourcePts,newPts);
     

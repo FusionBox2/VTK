@@ -27,6 +27,9 @@ public:
   vtkLargeInteger(unsigned long n);
   vtkLargeInteger(int n);
   vtkLargeInteger(unsigned int n);
+#if (defined(WIN64) || defined(_WIN64))
+	vtkLargeInteger(unsigned __int64 n);
+#endif
   vtkLargeInteger(const vtkLargeInteger& n);
   ~vtkLargeInteger(void);
   

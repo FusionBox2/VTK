@@ -29,6 +29,8 @@ vtkImageMathematics::vtkImageMathematics()
   this->ConstantC = 0.0;
   this->DivideByZeroToC = 0;
   this->NumberOfRequiredInputs = 1;
+  this->Amount = 0;
+  this->Thresold = 0;
 }
 
 
@@ -46,7 +48,7 @@ void vtkImageMathematics::ExecuteInformation(vtkImageData **inDatas,
   if (this->Operation == VTK_ADD || this->Operation == VTK_SUBTRACT || 
       this->Operation == VTK_MULTIPLY || this->Operation == VTK_DIVIDE ||
       this->Operation == VTK_MIN || this->Operation == VTK_MAX || 
-      this->Operation == VTK_ATAN2) 
+      this->Operation == VTK_ATAN2 || this->Operation == VTK_ADD_THRESOLD) 
     {
     ext2 = this->GetInput(1)->GetWholeExtent();
     for (idx = 0; idx < 3; ++idx)
@@ -274,6 +276,10 @@ void vtkImageMathematicsExecute2(vtkImageMathematics *self,
           case VTK_ADD:
             *outPtr = *in1Ptr + *in2Ptr;
             break;
+          case VTK_ADD_THRESOLD:
+            *outPtr = *in1Ptr + self->GetAmount() * (*in2Ptr) * ( (*in2Ptr) >= self->GetThresold());
+            if(*outPtr < *in1Ptr) *outPtr = *in1Ptr;
+            break;
           case VTK_SUBTRACT:
             *outPtr = *in1Ptr - *in2Ptr;
             break;
@@ -381,7 +387,7 @@ void vtkImageMathematics::ThreadedExecute(vtkImageData **inData,
   if (this->Operation == VTK_ADD || this->Operation == VTK_SUBTRACT || 
       this->Operation == VTK_MULTIPLY || this->Operation == VTK_DIVIDE ||
       this->Operation == VTK_MIN || this->Operation == VTK_MAX || 
-      this->Operation == VTK_ATAN2 || this->Operation == VTK_COMPLEX_MULTIPLY) 
+      this->Operation == VTK_ATAN2 || this->Operation == VTK_COMPLEX_MULTIPLY || this->Operation == VTK_ADD_THRESOLD) 
     {
     void *inPtr2;
     

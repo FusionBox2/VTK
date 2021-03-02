@@ -66,6 +66,7 @@ vtkCaptionActor2D::vtkCaptionActor2D()
   
   // Control font properties
   this->Padding = 3;
+  this->ConstraintInsideViewport = 0;
 
   this->CaptionTextProperty = vtkTextProperty::New();
   this->CaptionTextProperty->SetBold(1);
@@ -81,7 +82,9 @@ vtkCaptionActor2D::vtkCaptionActor2D()
   this->CaptionActor->GetPositionCoordinate()->SetReferenceCoordinate(NULL);
   this->CaptionActor->GetPosition2Coordinate()->SetCoordinateSystemToDisplay();
   this->CaptionActor->GetPosition2Coordinate()->SetReferenceCoordinate(NULL);
-  this->CaptionActor->SetScaledText(1);
+  ScalingText = 1;
+  this->CaptionActor->SetScaledText(ScalingText);
+  
 
   this->BorderPolyData = vtkPolyData::New();
   vtkPoints *pts = vtkPoints::New();
@@ -156,6 +159,9 @@ vtkCaptionActor2D::vtkCaptionActor2D()
   this->LeaderMapper3D = vtkPolyDataMapper::New();
   this->LeaderActor3D = vtkActor::New();
   this->LeaderActor3D->SetMapper(this->LeaderMapper3D);
+
+  DisplayOffsetConstraintInsideViewport[0] = 0;
+  DisplayOffsetConstraintInsideViewport[1] = 0;
 }
 
 //----------------------------------------------------------------------------
@@ -251,12 +257,62 @@ int vtkCaptionActor2D::RenderOpaqueGeometry(vtkViewport *viewport)
   p2[0] = (double)x2[0]; p2[1] = (double)x2[1]; p2[2] = p1[2];
   p3[0] = (double)x3[0]; p3[1] = (double)x3[1]; p3[2] = p1[2];
 
+  if(ConstraintInsideViewport == 1)
+  {
+    if(ScalingText == 1)
+      this->CaptionActor->SetScaledText(1);
+
+    int *viewportSize = viewport->GetSize();
+    
+    if(p2[0] < 0 || p2[1] < 0 || p3[0] > viewportSize[0] || p1[1] > viewportSize[1])
+    {
+      this->CaptionActor->SetScaledText(0);
+      
+      switch(AngleViewportConstraintInsideViewport)
+      {
+      case ID_LEFT_BOTTOM:
+        {
+          p2[0] = 0. + DisplayOffsetConstraintInsideViewport[0];
+          p2[1] = 0. + DisplayOffsetConstraintInsideViewport[1];
+        }
+        break;
+      case ID_LEFT_TOP:
+        {
+          p2[0] = 0. + DisplayOffsetConstraintInsideViewport[0];
+          p2[1] = viewportSize[1] + DisplayOffsetConstraintInsideViewport[1];
+        }
+        break;
+      case ID_RIGHT_BOTTOM:
+        {
+          p2[0] = viewportSize[0] + DisplayOffsetConstraintInsideViewport[0];
+          p2[1] = 0. + DisplayOffsetConstraintInsideViewport[1];
+        }
+        break;
+      case ID_RIGHT_TOP:
+        {
+          p2[0] = viewportSize[0] + DisplayOffsetConstraintInsideViewport[0];
+          p2[1] = viewportSize[1] + DisplayOffsetConstraintInsideViewport[1];
+        }
+        break;
+
+      }
+    }
+  }
+
+  double value1x = p2[0]+this->Padding;
+  double value1y = p2[1]+this->Padding;
+
+  double value2x = p3[0];
+  double value2y = p3[1];
+
+  
+
   // Set up the scaled text - take into account the padding
   this->CaptionActor->SetTextProperty(this->CaptionTextProperty);
   this->CaptionActor->GetPositionCoordinate()->SetValue(
-    p2[0]+this->Padding,p2[1]+this->Padding,0.0);
+    value1x,value1y,0.0);
   this->CaptionActor->GetPosition2Coordinate()->SetValue(
-    p3[0]-this->Padding,p3[1]-this->Padding,0.0);
+    value2x,value2y,0.0);
 
   // Define the border
   vtkPoints *pts = this->BorderPolyData->GetPoints();
@@ -503,4 +559,10 @@ void vtkCaptionActor2D::ShallowCopy(vtkProp *prop)
 
   // Now do superclass
   this->vtkActor2D::ShallowCopy(prop);
+}
+//----------------------------------------------------------------------------
+void vtkCaptionActor2D::SetCaptionActorScaling(int arg)
+{
+  this->CaptionActor->SetScaledText(arg);
+  ScalingText = arg;
 }

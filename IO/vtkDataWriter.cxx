@@ -719,6 +719,7 @@ int vtkDataWriter::WriteScalarData(ostream *fp, vtkDataArray *scalars, int num)
     int nvs = scalars->GetNumberOfComponents();
     unsigned char *data=((vtkUnsignedCharArray *)scalars)->GetPointer(0);
     *fp << "COLOR_SCALARS " << scalarsName << " " << nvs << "\n";
+    delete[] scalarsName;
 
     if ( this->FileType == VTK_ASCII )
       {

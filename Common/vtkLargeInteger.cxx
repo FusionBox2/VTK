@@ -21,7 +21,11 @@
 
 #include "vtkLargeInteger.h"
 
-const unsigned int BIT_INCREMENT = 32;
+#if (defined(WIN64) || defined(_WIN64))
+	const unsigned int BIT_INCREMENT = 64;
+#else
+	const unsigned int BIT_INCREMENT = 32;
+#endif
 
 int maximum(int a, int b)
 {
@@ -84,6 +88,23 @@ vtkLargeInteger::vtkLargeInteger(long n)
   this->Sig = BIT_INCREMENT - 1;
   this->Contract(); // remove leading 0s
 }
+
+
+#if (defined(WIN64) || defined(_WIN64))
+vtkLargeInteger::vtkLargeInteger(unsigned __int64 n)
+{
+	this->Negative = 0;
+	this->Number = new char[BIT_INCREMENT];
+	for (unsigned int i = 0; i < BIT_INCREMENT; i++)
+	{
+		this->Number[i] = n & 1;
+		n >>= 1;
+	}
+	this->Max = BIT_INCREMENT - 1;
+	this->Sig = BIT_INCREMENT - 1;
+	this->Contract(); // remove leading 0s
+}
+#endif
 
 vtkLargeInteger::vtkLargeInteger(unsigned long n)
 {

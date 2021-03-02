@@ -88,7 +88,11 @@ vtkWin32RenderWindowInteractor::~vtkWin32RenderWindowInteractor()
       }
     else 
       {
-      vtkSetWindowLong(this->WindowId,GWL_WNDPROC,(LONG)this->OldProc);
+#if (defined(WIN64) || defined(_WIN64))
+				vtkSetWindowLong(this->WindowId,GWLP_WNDPROC,(LONG)this->OldProc);
+#else
+				vtkSetWindowLong(this->WindowId,GWL_WNDPROC,(LONG)this->OldProc);
+#endif
       }
     this->Enabled = 0;
     }
@@ -156,7 +160,12 @@ void vtkWin32RenderWindowInteractor::Enable()
     {
     // add our callback
     ren = (vtkWin32OpenGLRenderWindow *)(this->RenderWindow);
-    this->OldProc = (WNDPROC)vtkGetWindowLong(this->WindowId,GWL_WNDPROC);
+    
+#if (defined(WIN64) || defined(_WIN64))
+		this->OldProc = (WNDPROC)vtkGetWindowLong(this->WindowId,GWLP_WNDPROC);
+#else
+		this->OldProc = (WNDPROC)vtkGetWindowLong(this->WindowId,GWL_WNDPROC);
+#endif
     tmp=(vtkWin32OpenGLRenderWindow *)vtkGetWindowLong(this->WindowId,4);
     // watch for odd conditions
     if (tmp != ren) 
@@ -170,7 +179,11 @@ void vtkWin32RenderWindowInteractor::Enable()
       }
     else 
       {
-      vtkSetWindowLong(this->WindowId,GWL_WNDPROC,(LONG)vtkHandleMessage);
+#if (defined(WIN64) || defined(_WIN64))
+				vtkSetWindowLong(this->WindowId,GWLP_WNDPROC,(LONG)vtkHandleMessage);
+#else
+				vtkSetWindowLong(this->WindowId,GWL_WNDPROC,(LONG)vtkHandleMessage);
+#endif
       }
     // in case the size of the window has changed while we were away
     int *size;
@@ -209,7 +222,12 @@ void vtkWin32RenderWindowInteractor::Disable()
       }
     else 
       {
-      vtkSetWindowLong(this->WindowId,GWL_WNDPROC,(LONG)this->OldProc);
+     
+#if (defined(WIN64) || defined(_WIN64))
+				vtkSetWindowLong(this->WindowId,GWLP_WNDPROC,(LONG)this->OldProc);
+#else
+				vtkSetWindowLong(this->WindowId,GWL_WNDPROC,(LONG)this->OldProc);
+#endif
       }
     }
   this->Enabled = 0;
