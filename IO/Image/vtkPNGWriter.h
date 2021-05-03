@@ -52,12 +52,20 @@ public:
   virtual void SetResult(vtkUnsignedCharArray*);
   vtkGetObjectMacro(Result, vtkUnsignedCharArray);
 
+  vtkSetMacro(PixelPerMeterX, unsigned int);
+  vtkGetMacro(PixelPerMeterX, unsigned int);
+
+  vtkSetMacro(PixelPerMeterY, unsigned int);
+  vtkGetMacro(PixelPerMeterY, unsigned int);
+
 protected:
   vtkPNGWriter();
   ~vtkPNGWriter();
 
   void WriteSlice(vtkImageData *data, int* uExtent);
   unsigned int WriteToMemory;
+  unsigned int PixelPerMeterX;
+  unsigned int PixelPerMeterY;
   vtkUnsignedCharArray *Result;
   FILE *TempFP;
 

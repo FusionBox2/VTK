@@ -33,12 +33,20 @@ public:
   vtkTypeMacro(vtkBMPWriter,vtkImageWriter);
   virtual void PrintSelf(ostream& os, vtkIndent indent);
 
+  vtkSetMacro(PixelPerMeterX, unsigned int);
+  vtkGetMacro(PixelPerMeterX, unsigned int);
+
+  vtkSetMacro(PixelPerMeterY, unsigned int);
+  vtkGetMacro(PixelPerMeterY, unsigned int);
+
 protected:
   vtkBMPWriter();
   ~vtkBMPWriter() {};
 
   virtual void WriteFile(ofstream *file, vtkImageData *data, int ext[6], int wExt[6]);
   virtual void WriteFileHeader(ofstream *, vtkImageData *, int wExt[6]);
+  unsigned int PixelPerMeterX;
+  unsigned int PixelPerMeterY;
 private:
   vtkBMPWriter(const vtkBMPWriter&);  // Not implemented.
   void operator=(const vtkBMPWriter&);  // Not implemented.
