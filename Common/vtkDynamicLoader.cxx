@@ -171,18 +171,7 @@ int vtkDynamicLoader::CloseLibrary(vtkLibHandle lib)
 
 void* vtkDynamicLoader::GetSymbolAddress(vtkLibHandle lib, const char* sym)
 { 
-#ifdef UNICODE
-        wchar_t *wsym = new wchar_t [mbstowcs(NULL, sym, 32000)];
-        mbstowcs(wsym, sym, 32000);
-        // Force GetProcAddress to return void* with a c style cast
-        // This is because you can not cast a function to a void* without
-        // an error on gcc 3.2 and ANSI C++, 
-        void *ret = (void*)GetProcAddress(lib, wsym);
-        delete [] wsym;
-        return ret;
-#else
   return (void*)GetProcAddress(lib, sym);
-#endif
 }
 
 const char* vtkDynamicLoader::LibPrefix()

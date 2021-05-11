@@ -159,7 +159,7 @@ void vtkWin32OpenGLRenderWindow::SetWindowName( const char * _arg )
   vtkWindow::SetWindowName(_arg);
   if (this->WindowId)
     {
-      SetWindowText(this->WindowId,this->WindowName);
+      SetWindowTextA(this->WindowId,this->WindowName);
     }
 }
 
@@ -235,7 +235,7 @@ void vtkWin32OpenGLRenderWindow::SetSize(int x, int y)
         {
         resizing = 1;
         this->CleanUpOffScreenRendering();
-        HDC dc = CreateDC("DISPLAY", 0, 0, 0);
+        HDC dc = CreateDCA("DISPLAY", 0, 0, 0);
         this->CreateOffScreenDC(x, y, dc);
         DeleteDC(dc);
         resizing = 0;
@@ -450,7 +450,7 @@ void vtkWin32OpenGLRenderWindow::SetupPixelFormat(HDC hDC, DWORD dwFlags,
       DescribePixelFormat(hDC, currentPixelFormat,sizeof(pfd), &pfd);
       if (!(pfd.dwFlags & PFD_SUPPORT_OPENGL))
         {
-          MessageBox(WindowFromDC(hDC), 
+          MessageBoxA(WindowFromDC(hDC), 
                      "Invalid pixel format, no OpenGL support",
                      "Error",
                      MB_ICONERROR | MB_OK);
@@ -471,7 +471,7 @@ void vtkWin32OpenGLRenderWindow::SetupPixelFormat(HDC hDC, DWORD dwFlags,
       pixelFormat = ChoosePixelFormat(hDC, &pfd);
       if (pixelFormat == 0)
         {
-          MessageBox(WindowFromDC(hDC), "ChoosePixelFormat failed.", "Error",
+          MessageBoxA(WindowFromDC(hDC), "ChoosePixelFormat failed.", "Error",
                      MB_ICONERROR | MB_OK);
           if (this->HasObserver(vtkCommand::ExitEvent))
             {
@@ -487,7 +487,7 @@ void vtkWin32OpenGLRenderWindow::SetupPixelFormat(HDC hDC, DWORD dwFlags,
       if (SetPixelFormat(hDC, pixelFormat, &pfd) != TRUE) 
         {
           // int err = GetLastError();
-          MessageBox(WindowFromDC(hDC), "SetPixelFormat failed.", "Error",
+          MessageBoxA(WindowFromDC(hDC), "SetPixelFormat failed.", "Error",
                      MB_ICONERROR | MB_OK);
           if (this->HasObserver(vtkCommand::ExitEvent))
             {
@@ -658,7 +658,7 @@ void vtkWin32OpenGLRenderWindow::CreateAWindow(int x, int y, int width,
   
   if (!this->WindowId)
     {
-    WNDCLASS wndClass;
+    WNDCLASSA wndClass;
     this->DeviceContext = 0;
     
     int len = static_cast<int>(strlen("Visualization Toolkit - Win32OpenGL #")) 
@@ -670,7 +670,7 @@ void vtkWin32OpenGLRenderWindow::CreateAWindow(int x, int y, int width,
     delete [] windowName;
     
     // has the class been registered ?
-    if (!GetClassInfo(this->ApplicationInstance,"vtkOpenGL",&wndClass))
+    if (!GetClassInfoA(this->ApplicationInstance,"vtkOpenGL",&wndClass))
       {
       wndClass.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
       wndClass.lpfnWndProc = vtkWin32OpenGLRenderWindow::WndProc;
@@ -685,13 +685,13 @@ void vtkWin32OpenGLRenderWindow::CreateAWindow(int x, int y, int width,
       // may want them, so we provide them. VTK does use the second 
       // four bytes of extra space.
       wndClass.cbWndExtra = 8;
-      RegisterClass(&wndClass);
+      RegisterClassA(&wndClass);
       }
     
     /* create window */
     if (this->ParentId)
       {
-      this->WindowId = CreateWindow(
+      this->WindowId = CreateWindowA(
         "vtkOpenGL", this->WindowName,
         WS_CHILD | WS_CLIPCHILDREN /*| WS_CLIPSIBLINGS*/,
         x, y, width, height,
@@ -708,7 +708,7 @@ void vtkWin32OpenGLRenderWindow::CreateAWindow(int x, int y, int width,
         {
         style = WS_POPUP | WS_CLIPCHILDREN /*| WS_CLIPSIBLINGS*/;
         }
-      this->WindowId = CreateWindow(
+      this->WindowId = CreateWindowA(
         "vtkOpenGL", this->WindowName, style,
         x,y, width+2*GetSystemMetrics(SM_CXFRAME),
         height+2*GetSystemMetrics(SM_CYFRAME) +GetSystemMetrics(SM_CYCAPTION),
@@ -1111,7 +1111,7 @@ void vtkWin32OpenGLRenderWindow::SetOffScreenRendering(int offscreen)
       size[0] = (this->Size[0] > 0) ? this->Size[0] : 300;
       size[1] = (this->Size[1] > 0) ? this->Size[1] : 300;
 
-      HDC dc = CreateDC("DISPLAY", 0, 0, 0);
+      HDC dc = CreateDCA("DISPLAY", 0, 0, 0);
       this->SetupMemoryRendering(size[0], size[1], dc);
       DeleteDC(dc); 
     }
@@ -1231,7 +1231,7 @@ void vtkWin32OpenGLRenderWindow::SetupMemoryRendering(int xsize, int ysize,
 
 void vtkWin32OpenGLRenderWindow::SetupMemoryRendering(HBITMAP hbmp)
 {
-  HDC dc = CreateDC("DISPLAY", 0, 0, 0);
+  HDC dc = CreateDCA("DISPLAY", 0, 0, 0);
 
   // save the current state
   this->ScreenMapped = this->Mapped;

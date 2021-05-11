@@ -156,8 +156,8 @@ int vtkWin32OutputWindow::Initialize()
     0, 0, 512, 512,
     NULL, NULL, GetModuleHandle(NULL), NULL);
 #else
-  HWND win = CreateWindow(
-    "vtkOutputWindow", "vtkOutputWindow",
+  HWND win = CreateWindowW(
+    L"vtkOutputWindow", L"vtkOutputWindow",
     WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN,
     0, 0, 512, 512,
     NULL, NULL, GetModuleHandle(NULL), NULL);
@@ -182,8 +182,13 @@ int vtkWin32OutputWindow::Initialize()
   lpParam.style = ES_MULTILINE | ES_READONLY | WS_CHILD 
     | ES_AUTOVSCROLL | ES_AUTOHSCROLL | WS_VISIBLE | WS_MAXIMIZE
     | WS_VSCROLL | WS_HSCROLL;
+#ifdef UNICODE
+  lpParam.lpszName = L"Output Control";
+  lpParam.lpszClass = L"EDIT"; // use the RICHEDIT control widget
+#else
   lpParam.lpszName = "Output Control";
   lpParam.lpszClass = "EDIT"; // use the RICHEDIT control widget
+#endif
 #endif  
   lpParam.dwExStyle = 0;
   // Create the EDIT window as a child of win
@@ -202,9 +207,10 @@ int vtkWin32OutputWindow::Initialize()
     &lpParam        // pointer to window-creation data
     );
 #else
+#ifdef UNICODE
   vtkWin32OutputWindow::OutputWindow = CreateWindow(
     lpParam.lpszClass,  // pointer to registered class name
-    "", // pointer to window name
+    L"", // pointer to window name
     lpParam.style,        // window style
     lpParam.x,                // horizontal position of window
     lpParam.y,                // vertical position of window
@@ -215,6 +221,21 @@ int vtkWin32OutputWindow::Initialize()
     lpParam.hInstance,     // handle to application instance
     &lpParam        // pointer to window-creation data
     );
+#else
+  vtkWin32OutputWindow::OutputWindow = CreateWindow(
+      lpParam.lpszClass,  // pointer to registered class name
+      "", // pointer to window name
+      lpParam.style,        // window style
+      lpParam.x,                // horizontal position of window
+      lpParam.y,                // vertical position of window
+      lpParam.cx,           // window width
+      lpParam.cy,          // window height
+      lpParam.hwndParent,      // handle to parent or owner window
+      NULL,          // handle to menu or child-window identifier
+      lpParam.hInstance,     // handle to application instance
+      &lpParam        // pointer to window-creation data
+  );
+#endif
 #endif
 
   const int maxsize = 5242880;
