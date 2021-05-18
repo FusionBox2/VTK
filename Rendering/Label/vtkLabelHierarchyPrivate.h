@@ -67,7 +67,7 @@ public:
       {
       }
 
-    bool operator () ( const vtkIdType& a, const vtkIdType& b )
+    bool operator () ( const vtkIdType& a, const vtkIdType& b ) const
       {
       if (0 == this->Hierarchy)
         {
