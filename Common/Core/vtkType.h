@@ -233,6 +233,8 @@ typedef signed __int64   vtkTypeInt64;
 # error "No native data type can represent a 64-bit integer."
 #endif
 
+typedef unsigned long vtkMTimeType;
+
 /* Select a 32-bit floating point type.  */
 #if VTK_SIZEOF_FLOAT == 4
 typedef float vtkTypeFloat32;
