@@ -45,6 +45,12 @@ public:
   vtkGetObjectMacro(Result, vtkUnsignedCharArray);
   ///@}
 
+  vtkSetMacro(PixelPerMeterX, unsigned int);
+  vtkGetMacro(PixelPerMeterX, unsigned int);
+
+  vtkSetMacro(PixelPerMeterY, unsigned int);
+  vtkGetMacro(PixelPerMeterY, unsigned int);
+
 protected:
   vtkBMPWriter();
   ~vtkBMPWriter() override;
@@ -53,6 +59,8 @@ protected:
   void WriteFileHeader(ostream*, vtkImageData*, int wExt[6]) override;
   void MemoryWrite(int, vtkImageData*, int wExt[6], vtkInformation* inInfo) override;
 
+  unsigned int PixelPerMeterX;
+  unsigned int PixelPerMeterY;
 private:
   vtkBMPWriter(const vtkBMPWriter&) = delete;
   void operator=(const vtkBMPWriter&) = delete;
