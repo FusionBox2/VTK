@@ -29,6 +29,9 @@ vtkBMPWriter::vtkBMPWriter()
 {
   this->FileLowerLeft = 1;
   this->Result = nullptr;
+
+  this->PixelPerMeterX = 0;
+  this->PixelPerMeterY = 0;
 }
 
 vtkBMPWriter::~vtkBMPWriter()
@@ -74,20 +77,36 @@ void vtkBMPWriter::WriteFileHeader(ostream* file, vtkImageData*, int wExt[6])
   file->put((char)0);
   file->put((char)0);
 
-  file->put((char)(width % 256));
-  file->put((char)(width / 256));
-  file->put((char)0);
-  file->put((char)0);
+  file->put((char)((width%65536)%256));
+  file->put((char)((width%65536)/256));
+  file->put((char)((width/65536)%256));
+  file->put((char)((width/65536)/256));
 
-  file->put((char)(height % 256));
-  file->put((char)(height / 256));
-  file->put((char)0);
-  file->put((char)0);
+  file->put((char)((height%65536)%256));
+  file->put((char)((height%65536)/256));
+  file->put((char)((height/65536)%256));
+  file->put((char)((height/65536)/256));
 
   file->put((char)1);
   file->put((char)0);
   file->put((char)24);
-  for (row = 0; row < 25; row++)
+  file->put((char)0);
+  for (row = 0; row < 8; row++)
+  {
+    file->put((char)0);
+  }
+
+  file->put((char)((PixelPerMeterX%65536)%256));
+  file->put((char)((PixelPerMeterX%65536)/256));
+  file->put((char)((PixelPerMeterX/65536)%256));
+  file->put((char)((PixelPerMeterX/65536)/256));
+
+  file->put((char)((PixelPerMeterY%65536)%256));
+  file->put((char)((PixelPerMeterY%65536)/256));
+  file->put((char)((PixelPerMeterY/65536)%256));
+  file->put((char)((PixelPerMeterY/65536)/256));
+
+  for (row = 0; row < 8; row++)
   {
     file->put((char)0);
   }
