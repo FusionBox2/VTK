@@ -54,6 +54,9 @@ vtkPNGWriter::vtkPNGWriter()
   this->Result = nullptr;
   this->TempFP = nullptr;
   this->Internals = new vtkInternals();
+
+  this->PixelPerMeterX = 0;
+  this->PixelPerMeterY = 0;
 }
 
 vtkPNGWriter::~vtkPNGWriter()
@@ -316,6 +319,13 @@ void vtkPNGWriter::WriteSlice(vtkImageData* data, int* uExtent)
 
   // interlace_type - PNG_INTERLACE_NONE or
   //                 PNG_INTERLACE_ADAM7
+
+  if(PixelPerMeterX != 0 && PixelPerMeterY != 0)
+  {
+    png_set_pHYs(png_ptr, info_ptr, PixelPerMeterX, PixelPerMeterY,
+      PNG_RESOLUTION_METER);
+  }
+  
 
   png_write_info(png_ptr, info_ptr);
   // default is big endian
